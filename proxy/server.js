@@ -17,6 +17,12 @@ const LOGIN_PATH = process.env.LOGIN_PATH || '/jwtlogin';
 const LOGIN_USER = process.env.LOGIN_USER;
 const LOGIN_PASS = process.env.LOGIN_PASS;
 
+// AUDIO STREAMING PROXY
+const CDN_BASE = process.env.DIGITAL_OCEAN_CDN;       // e.g. https://sonar-media.sfo3.cdn.digitaloceanspaces.com/
+const AUDIO_DIR = process.env.CDN_AUDIO_DIR || 'mixer';
+const ALLOWED_PROFILES = (process.env.ALLOWED_AUDIO_PROFILES || 'andrew,pro,basic').split(',');
+
+
 console.log('[ENV]', {
   PORT,
   TARGET_URL,
@@ -188,6 +194,46 @@ app.get('/proxy-api/cache/clear', (req, res) => {
   console.log('[CACHE] Manually cleared');
   res.json({ message: 'Cache cleared successfully' });
 });
+
+
+app.get('/audio-mixer/:profile/*', async (req, res) => {
+  const { profile } = req.params;
+
+  if (!ALLOWED_PROFILES.includes(profile)) {
+    return res.status(403).send('Invalid audio profile');
+  }
+
+  const subPath = req.params[0]; // e.g. brainwave/track.mp3
+  const remoteUrl = `${CDN_BASE}${AUDIO_DIR}/${profile}/${subPath}`;
+
+  console.log(`[AUDIO PROXY] Request for: ${remoteUrl}`);
+
+  try {
+    const response = await fetch(remoteUrl, {
+      headers: {
+        ...(req.headers.range ? { Range: req.headers.range } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`[AUDIO PROXY] Error: ${response.status} for ${remoteUrl}`);
+      return res.status(response.status).send('File not found or error fetching audio.');
+    }
+
+    // Forward response status and headers
+    res.status(response.status);
+    for (const [key, value] of response.headers.entries()) {
+      res.setHeader(key, value);
+    }
+
+    // Pipe audio stream
+    response.body.pipe(res);
+  } catch (err) {
+    console.error('[AUDIO PROXY ERROR]', err);
+    res.status(500).send('Audio proxy failure.');
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`🔐 Secure proxy with LRU cache running at http://localhost:${PORT}/proxy-api`);
