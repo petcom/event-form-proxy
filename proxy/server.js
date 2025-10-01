@@ -196,15 +196,14 @@ app.get('/proxy-api/cache/clear', (req, res) => {
 });
 
 
-app.get('/audio-mixer/:profile/*', async (req, res) => {
-  const { profile } = req.params;
+app.get('/audio-mixer/:profile/:filePath(*)', async (req, res) => {
+  const { profile, filePath } = req.params;
 
   if (!ALLOWED_PROFILES.includes(profile)) {
     return res.status(403).send('Invalid audio profile');
   }
 
-  const subPath = req.params[0]; // e.g. brainwave/track.mp3
-  const remoteUrl = `${CDN_BASE}${AUDIO_DIR}/${profile}/${subPath}`;
+  const remoteUrl = `${CDN_BASE}${AUDIO_DIR}/${profile}/${filePath}`;
 
   console.log(`[AUDIO PROXY] Request for: ${remoteUrl}`);
 
