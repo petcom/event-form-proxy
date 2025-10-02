@@ -196,8 +196,11 @@ app.get('/proxy-api/cache/clear', (req, res) => {
 });
 
 
-app.get('/audio-mixer/:profile/:filePath(*)', async (req, res) => {
-  const { profile, filePath } = req.params;
+// Audio streaming proxy - serves audio files from DigitalOcean CDN
+// Use a regex pattern to capture everything after the profile
+app.get(/^\/audio-mixer\/([^\/]+)\/(.+)$/, async (req, res) => {
+  const profile = req.params[0];
+  const filePath = req.params[1];
 
   if (!ALLOWED_PROFILES.includes(profile)) {
     return res.status(403).send('Invalid audio profile');
