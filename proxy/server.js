@@ -22,6 +22,14 @@ const CDN_BASE = process.env.DIGITAL_OCEAN_CDN;       // e.g. https://sonar-medi
 const AUDIO_DIR = process.env.CDN_AUDIO_DIR || 'mixer';
 const ALLOWED_PROFILES = (process.env.ALLOWED_AUDIO_PROFILES || 'andrew,pro,basic').split(',');
 
+// GOOGLE SHEETS MAPPING
+let SHEET_MAP = {};
+try {
+  SHEET_MAP = JSON.parse(process.env.SHEET_MAP_JSON || '{}');
+  console.log('[SHEET_MAP] Loaded mappings:', Object.keys(SHEET_MAP));
+} catch (err) {
+  console.error('[SHEET_MAP] Failed to parse SHEET_MAP_JSON:', err);
+}
 
 console.log('[ENV]', {
   PORT,
@@ -60,22 +68,52 @@ app.post('/proxy-api/forms', async (req, res) => {
   console.log('HIT /proxy-api/forms');
   console.log('Request body:', req.body);
 
-  const scriptUrl = req.query.scriptUrl || process.env.GOOGLE_SCRIPT_URL;
-  console.log('Using scriptUrl:', scriptUrl);
+  // Look for a sheetKey in the request body (e.g., "RLC-contact")
+  const sheetKey = req.body.sheetKey;
+  
+  if (!sheetKey) {
+    console.error('Missing sheetKey in request body.');
+    return res.status(400).json({ error: 'Missing sheetKey in request body. Use one of: ' + Object.keys(SHEET_MAP).join(', ') });
+  }
 
+  // Look up the sheet mapping
+  const sheetConfig = SHEET_MAP[sheetKey];
+  
+  if (!sheetConfig) {
+    console.error(`Invalid sheetKey: ${sheetKey}`);
+    return res.status(400).json({ 
+      error: `Invalid sheetKey: ${sheetKey}`, 
+      availableKeys: Object.keys(SHEET_MAP) 
+    });
+  }
+
+  console.log(`Using sheet config for "${sheetKey}":`, sheetConfig);
+
+  // Use the Google Script URL from env
+  const scriptUrl = req.query.scriptUrl || process.env.GOOGLE_SCRIPT_URL;
+  
   if (!scriptUrl) {
     console.error('Missing Google Apps Script URL.');
     return res.status(400).json({ error: 'Missing Google Apps Script URL.' });
   }
 
+  // Prepare the payload to send to Google Apps Script
+  // Include the spreadsheetId and sheetName from the mapping
+  const payload = {
+    ...req.body,
+    spreadsheetId: sheetConfig.spreadsheetId,
+    sheetName: sheetConfig.sheetName
+  };
+
+  console.log('Sending payload to Google Script:', payload);
+
   try {
     const fetchOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(payload),
       redirect: 'follow',
     };
-    console.log('Fetch options:', fetchOptions);
 
     const response = await fetch(scriptUrl, fetchOptions);
 
