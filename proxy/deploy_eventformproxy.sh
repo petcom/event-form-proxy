@@ -5,7 +5,7 @@ set -euo pipefail
 APP_USER="${APP_USER:-eventformproxy}"
 APP_GROUP="${APP_GROUP:-$APP_USER}"
 
-SRC="${SRC:-$HOME/event-form-proxy}"          # your local project folder
+SRC="${SRC:-$PWD}"   #"${SRC:-$HOME/event-form-proxy}"          # your local project folder
 DEST_BASE="${DEST_BASE:-/srv/event-form-proxy}"
 DEST_APP="$DEST_BASE/app"
 DEST_LOGS="$DEST_BASE/logs"
