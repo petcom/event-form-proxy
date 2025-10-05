@@ -47,9 +47,9 @@ fi
 echo "==> Using entry: $ENTRY"
 
 # 3) Write ecosystem.config.js (only if missing)
-ECO="$DEST_APP/ecosystem.config.js"
+ECO="$DEST_APP/ecosystem.config.cjs"
 if ! sudo -u "$APP_USER" test -f "$ECO"; then
-  echo "==> Creating ecosystem.config.js"
+  echo "==> Creating ecosystem.config.cjs"
   sudo -u "$APP_USER" bash -lc "cat > '$ECO' <<'EOF'
 module.exports = {
   apps: [{
@@ -80,7 +80,7 @@ sudo -u "$APP_USER" -H bash -lc "
   cd '$DEST_APP'
   # Provide runtime overrides via env so the ecosystem can pick them up
   APP_NAME='$APP_NAME' ENTRY='$ENTRY' INSTANCES='$INSTANCES' EXEC_MODE='$EXEC_MODE' \
-    pm2 start ecosystem.config.js || pm2 reload ecosystem.config.js
+    pm2 start ecosystem.config.cjs || pm2 reload ecosystem.config.cjs
   pm2 save
 "
 
