@@ -1,0 +1,399 @@
+<!-- Mindful Dance Open House – Landing Module -->
+<div id="mdoh" class="mdoh">
+  <style>
+    /* ----- Scoped styles (won't leak) ----- */
+    .mdoh{--bg:var(--background-color,#fff);--text:var(--text-color,#222);--accent:var(--accent-color,#ee6840);--surface:color-mix(in oklab,var(--bg) 92%,var(--text) 8%);--border:color-mix(in oklab,var(--bg) 85%,var(--text) 15%);font-family:var(--theme-body-font,system-ui),sans-serif;color:var(--text)}
+    .mdoh *{box-sizing:border-box}
+    .mdoh a{color:var(--accent);text-decoration:none}
+    .mdoh .hero{position:relative;overflow:hidden;border-radius:18px;background:var(--surface);padding:2rem;margin:0 0 1.25rem;display:grid;gap:1rem}
+    .mdoh .hero h1{font-family:var(--theme-heading-font,inherit);font-size:clamp(1.7rem,3.2vw,2.4rem);margin:0}
+    .mdoh .sub{opacity:.9;margin-top:.25rem}
+    .mdoh .meta{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;margin-top:.25rem;font-size:.975rem}
+    .mdoh .meta .chip{background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:.35rem .7rem}
+    .mdoh .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:1.25rem}
+    @media (max-width:880px){.mdoh .grid{grid-template-columns:1fr}}
+    .mdoh .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1rem 1.1rem}
+    .mdoh h2{font-size:1.15rem;margin:.15rem 0 .6rem}
+    .mdoh ul{margin:.35rem 0 .25rem 1.1rem}
+    .mdoh li{margin:.25rem 0}
+    .mdoh .faq details{border-top:1px solid var(--border);padding:.6rem 0}
+    .mdoh .faq summary{cursor:pointer;font-weight:600}
+    .mdoh .cta-sticky{position:sticky;bottom:12px;display:flex;justify-content:flex-end;margin-top:.5rem}
+    .mdoh button,.mdoh .btn{appearance:none;cursor:pointer;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:.8rem 1rem;font-weight:700}
+    .mdoh form{display:grid;gap:.6rem}
+    .mdoh label{font-size:.95rem}
+    .mdoh input,.mdoh select,.mdoh textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);background:#fff;border-radius:10px}
+    .mdoh .row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    @media (max-width:600px){.mdoh .row{grid-template-columns:1fr}}
+    .mdoh .muted{opacity:.8;font-size:.9rem}
+    .mdoh .success{display:none;background:#ecfff0;border:1px solid #b8f0c4;color:#174d27;border-radius:12px;padding:.9rem;margin-top:.6rem}
+    .mdoh .error{display:none;background:#fff4f4;border:1px solid #ffc9c9;color:#7a0b0b;border-radius:12px;padding:.9rem;margin-top:.6rem}
+    .mdoh .error-inline{display:none;color:#7a0b0b;font-size:.85rem;margin:.3rem 0 0}
+  </style>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h1>Move gently. Meet yourself. Meet others.</h1>
+      <p class="sub">A beginner-friendly Mindful Dance Open House — guided, calm, connection-forward.</p>
+      <div class="meta">
+        <span class="chip" id="mdoh-date">Sat, Oct 18 • 10:00–12:00 PM</span>
+        <span class="chip" id="mdoh-loc">Resonant Life Academy • Tempe</span>
+        <a class="btn" href="#rsvp">Sign Up - Free</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <!-- LEFT COLUMN -->
+    <section class="card">
+      <h2>What to expect</h2>
+      <ul>
+        <li>Gentle warm-up and guided movement</li>
+        <li>Consent-based, come-as-you-are space</li>
+        <li>Leave lighter, clearer, and more connected</li>
+      </ul>
+
+      <h2>Who it’s for</h2>
+      <ul>
+        <li>Curious beginners and “dance-shy” folks</li>
+        <li>Anyone seeking calm, presence, and community</li>
+        <li>All bodies and experience levels welcome</li>
+      </ul>
+
+      <h2>Details</h2>
+      <ul>
+        <li><strong>Where:</strong> 6625 S Rural Rd #109, Tempe, AZ</li>
+        <li><strong>Parking:</strong> Free lot; arrive 10 minutes early</li>
+        <li><strong>Bring:</strong> Water, comfy clothes; socks or bare feet</li>
+        <li><strong>Accessibility:</strong> Chairs available; scent-free requested</li>
+      </ul>
+
+      <div class="faq">
+        <h2>FAQ</h2>
+        <details><summary>Is this beginner-friendly?</summary><div>Yes. We guide you gently with options at every step.</div></details>
+        <details><summary>Is there loud music?</summary><div>Volume is moderate; we keep it nervous-system friendly.</div></details>
+        <details><summary>Can I bring a friend?</summary><div>Absolutely. Add their name in the +1 field below.</div></details>
+        <details><summary>What if I don’t want to be filmed?</summary><div>We announce media moments and have opt-out zones.</div></details>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: RSVP -->
+    <section id="rsvp" class="card">
+      <h2>RSVP</h2>
+      <form id="mdoh-form" method="post" novalidate>
+        <div class="row">
+          <div>
+            <label for="first_name">First name *</label>
+            <input id="first_name" name="first_name" required />
+          </div>
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required />
+            <p class="error-inline" id="mdoh-email-error" role="alert" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="phone">Mobile (optional)</label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" />
+          </div>
+          <div>
+            <label for="plus_one">Bringing a friend? (name)</label>
+            <input id="plus_one" name="plus_one" />
+          </div>
+        </div>
+        <label class="muted">
+          <input id="sms_opt_in" name="sms_opt_in" type="checkbox" />
+          I agree to receive event reminders via SMS. Msg & data rates may apply. Reply STOP to unsubscribe.
+        </label>
+        <label class="muted">
+          <input id="interest" name="interest" type="checkbox" />
+          Add me to the Mindful Dance interest list.
+        </label>
+
+    <!-- Hidden tracking fields (auto-filled by JS) -->
+    <input type="hidden" name="utm_source" />
+    <input type="hidden" name="utm_medium" />
+    <input type="hidden" name="utm_campaign" />
+    <input type="hidden" name="utm_content" />
+    <input type="hidden" name="page_path" />
+    <input type="hidden" name="event_slug" value="mindful-dance-open-house" />
+    <input type="hidden" name="trackingKey" value="RLA-track" />
+    <input type="hidden" name="sheetName" value="2025-1" />
+
+        <button type="submit" class="btn">Sign Up - Free</button>
+
+        <div class="success" id="mdoh-success">
+          Thanks! You’re on the list. Check your email for details and add to calendar.
+        </div>
+        <div class="error" id="mdoh-error">
+          Sorry, something went wrong. Please try again or email us.
+        </div>
+        <p class="muted">We’ll never share your info. You can unsubscribe anytime.</p>
+      </form>
+      <div class="cta-sticky"><a class="btn" href="#rsvp">Sign Up - Free</a></div>
+    </section>
+  </div>
+
+  <!-- JSON-LD Event Schema (edit dates/times/urls) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Event",
+    "name":"Mindful Dance Open House",
+    "description":"Beginner-friendly mindful movement for calm, presence, and connection.",
+    "image":["https://YOUR_SITE/og-images/mindful-dance.jpg"],
+    "startDate":"2025-11-08T14:00:00-07:00",
+    "endDate":"2025-11-08T15:00:00-07:00",
+    "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus":"https://schema.org/EventScheduled",
+    "location":{
+      "@type":"Place",
+      "name":"Resonant Life Academy",
+      "address":{
+        "@type":"PostalAddress",
+        "streetAddress":"6625 S Rural Rd #109",
+        "addressLocality":"Tempe",
+        "addressRegion":"AZ",
+        "postalCode":"85283",
+        "addressCountry":"US"
+      }
+    },
+    "organizer":{
+      "@type":"Organization",
+      "name":"Resonant Life Academy",
+      "url":"https://YOUR_SITE/"
+    },
+    "offers":{
+      "@type":"Offer",
+      "price":"0",
+      "priceCurrency":"USD",
+      "availability":"https://schema.org/InStock",
+      "url":"https://YOUR_SITE/events/mindful-dance-open-house"
+    }
+  }
+  </script>
+
+  <!-- Meta helper -->
+  <script>
+    function trackMetaLead(extraData = {}) {
+      if (window.fbq) {
+        fbq('track', 'Lead', extraData);
+        // fbq('track', 'Contact', extraData);
+      }
+    }
+  </script>
+
+  <!-- Behavior: builds form endpoint, captures UTMs, sends RSVP, fires pixels -->
+  <script>
+    (function(){
+      const form = document.getElementById('mdoh-form');
+      const successEl = document.getElementById('mdoh-success');
+      const errorEl   = document.getElementById('mdoh-error');
+      const emailInput = form.email;
+      const emailError = document.getElementById('mdoh-email-error');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const defaultSubmitLabel = submitBtn.textContent.trim();
+      const submittingLabel = 'Sending…';
+
+      const toggleSubmit = (isSubmitting) => {
+        submitBtn.disabled = isSubmitting;
+        submitBtn.setAttribute('aria-disabled', isSubmitting ? 'true' : 'false');
+        submitBtn.textContent = isSubmitting ? submittingLabel : defaultSubmitLabel;
+      };
+
+      const clearEmailError = () => {
+        if (!emailError) return;
+        emailError.textContent = '';
+        emailError.style.display = 'none';
+        emailInput.removeAttribute('aria-invalid');
+      };
+
+      emailInput.addEventListener('input', () => {
+        if (emailInput.validity.valid) {
+          clearEmailError();
+        }
+      });
+
+      // 1) Determine endpoint
+      const CFG = window.GHOST_CONFIG || {};
+
+      // Shared event/transaction ID for dedupe across platforms
+      const eventId = (() => 'evt_' + ([1e7]+-1e3+-4e3+-8e3+-1e11)
+        .replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c/4).toString(16)))();
+
+
+      const trimSlash = (url = '') => url.replace(/\/+$/, '');
+      const endpoint =
+        (CFG.formsApiUrl ? trimSlash(CFG.formsApiUrl) : '') ||
+        (CFG.eventTrackingUrl ? trimSlash(CFG.eventTrackingUrl) : '') ||
+        (CFG.trackingApiUrl ? trimSlash(CFG.trackingApiUrl) : '') ||
+        (CFG.proxyApiUrl ? trimSlash(CFG.proxyApiUrl) + '/forms' : '') ||
+        `${trimSlash(window.location.origin)}/proxy-api/forms`;
+
+      // 2) Fill hidden fields
+      const fillHiddenFields = () => {
+        const params = new URLSearchParams(window.location.search);
+        form.querySelector('input[name="utm_source"]').value   = params.get('utm_source')   || '';
+        form.querySelector('input[name="utm_medium"]').value   = params.get('utm_medium')   || '';
+        form.querySelector('input[name="utm_campaign"]').value = params.get('utm_campaign') || 'mindful_dance_open_house_202511';
+        form.querySelector('input[name="utm_content"]').value  = params.get('utm_content')  || '';
+        form.querySelector('input[name="page_path"]').value    = window.location.pathname;
+      };
+
+      fillHiddenFields();
+
+      // 3) Submit handler
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorEl.style.display = 'none';
+        successEl.style.display = 'none';
+        clearEmailError();
+
+        // Basic client-side validation
+        const first = form.first_name.value.trim();
+        const email = emailInput.value.trim();
+
+        if(!first){
+          errorEl.textContent = 'Please fill in your name.';
+          errorEl.style.display='block';
+          form.first_name.focus();
+          return;
+        }
+
+        if(!email){
+          errorEl.textContent = 'Please fill in your email.';
+          errorEl.style.display='block';
+          emailInput.focus();
+          return;
+        }
+
+        if(!emailInput.checkValidity()){
+          if (emailError) {
+            emailError.textContent = 'Please enter a valid email address (e.g., name@example.com).';
+            emailError.style.display = 'block';
+          }
+          emailInput.setAttribute('aria-invalid','true');
+          emailInput.focus();
+          return;
+        }
+
+        // Payload
+        const payload = {
+          form_type: 'event_rsvp',
+          event_slug: form.event_slug.value,
+          first_name: first,
+          email,
+          phone: form.phone.value.trim(),
+          plus_one: form.plus_one.value.trim(),
+          sms_opt_in: form.sms_opt_in.checked,
+          interest: form.interest.checked,
+          utm_source: form.utm_source.value,
+          utm_medium: form.utm_medium.value,
+          utm_campaign: form.utm_campaign.value,
+          utm_content: form.utm_content.value,
+          page_path: form.page_path.value,
+          trackingKey: form.trackingKey.value,
+          sheetName: form.sheetName.value,
+          timestamp: new Date().toISOString()
+        };
+
+        try{
+          toggleSubmit(true);
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+          });
+
+          if(!res.ok){
+            let message = 'Network response was not ok: ' + res.status;
+            try {
+              const detail = await res.json();
+              if (detail && detail.error) {
+                message = detail.error + (detail.detail ? ` — ${detail.detail}` : '');
+              }
+            } catch (_) {
+              /* ignore JSON parse errors */
+            }
+            throw new Error(message);
+          }
+
+          async function sha256Hex(str){
+            const buf = new TextEncoder().encode(str.trim().toLowerCase());
+            const hash = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+          }
+
+          const em = payload.email ? await sha256Hex(payload.email) : undefined;
+          const ph = payload.phone ? await sha256Hex(payload.phone.replace(/\D/g,'')) : undefined;
+
+          /* ✅ Grant ad_storage right BEFORE firing the Ads conversion */
+          if (typeof gtag === 'function') {
+            gtag('consent','update', { ad_storage: 'granted' });
+          }
+          // ---------- GA4 Enhanced Conversions (user_data) ----------
+          if (typeof gtag === 'function') {
+            gtag('set','user_data', {
+              email: em,
+              phone_number: ph
+            });
+          }
+
+          // ---------- Google Ads conversion (OPTION A: keep this OR import GA4 into Ads, not both) ----------
+          if (typeof gtag === 'function') {
+            gtag('event','conversion',{
+              send_to: 'AW-16548206206/R0P1CLHhhKsbEP6s5tI9', // your real label
+              value: 1.0,
+              currency: 'USD',
+              transaction_id: eventId // good for de-dupe if same action fires elsewhere
+            });
+          }
+
+          // ---------- GA4 recommended event ----------
+          if (typeof gtag === 'function') {
+            gtag('event','sign_up', {
+              method: 'onsite_form',
+              form_name: 'mindful_dance_open_house',
+              event_id: eventId
+              // (Do NOT send event_label or utm_*; GA4 captures traffic sources automatically)
+            });
+          }
+
+          // ---------- Meta Pixel (pick ONE: Lead OR CompleteRegistration) ----------
+          if (typeof fbq === 'function') {
+            // Option 1: Lead (recommended for contact/interest)
+            fbq('track','CompleteRegistration', {
+              content_name: 'mindful_dance_open_house',
+              event_id: eventId,
+              source: payload.utm_source || 'direct'
+            });
+
+            // If you prefer to pass hashed matches directly here:
+            // fbq('track','Lead', { em, ph, content_name: 'mindful_dance_open_house', event_id: eventId });
+            
+            // Option 2 (REMOVE if you use Lead): 
+            // fbq('track','CompleteRegistration', { content_name: 'mindful_dance_open_house', event_id: eventId });
+          }
+
+
+          successEl.style.display = 'block';
+          form.reset();
+          fillHiddenFields();
+
+          // Optional: smooth scroll to success message
+          successEl.scrollIntoView({behavior:'smooth',block:'center'});
+
+        }catch(err){
+          console.error(err);
+          errorEl.textContent = err?.message || 'Sorry, something went wrong. Please try again or email us.';
+          errorEl.style.display = 'block';
+        }finally{
+          toggleSubmit(false);
+        }
+      });
+    })();
+  </script>
+</div>
+

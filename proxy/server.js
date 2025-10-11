@@ -4,7 +4,6 @@ import { config, SHEET_MAP, TRACK_MAP } from './config/env.js';
 import formsRouter from './routes/forms.js';
 import apiProxyRouter from './routes/apiProxy.js';
 import audioRouter from './routes/audio.js';
-import eventTrackingRouter from './routes/eventTracking.js';
 
 const app = express();
 
@@ -30,7 +29,6 @@ app.use(express.json());
 app.use('/proxy-api/forms', formsRouter);
 app.use('/proxy-api', apiProxyRouter);
 app.use('/audio-mixer', audioRouter);
-app.use('/forms', eventTrackingRouter);
 
 app.listen(config.PORT, () => {
   console.log(`🔐 Secure proxy with LRU cache running at http://localhost:${config.PORT}/proxy-api`);
